@@ -11,7 +11,7 @@ timestamp=`date +%s`
 # check and assign default result file
 if [ -z "$2" ]
   then
-    storage="test-result-$timestamp.log"
+    storage="ab-batch-$timestamp.log"
 fi
 
 banner=("Web Load Test to $1 started at $timestamp")
@@ -19,7 +19,7 @@ banner=("Web Load Test to $1 started at $timestamp")
 echo $banner
 
 #	store banner to file result
-echo $banner >> $storage
+echo $banner &>> $storage
 
 #	set the target as supplied by arguments
 target=$1
@@ -31,9 +31,9 @@ concurrency=( 1 5 10 20 50)
 for i in "${concurrency[@]}"
 do
 
-echo "start concurrency $i" >> $storage
-eval "ab -n 1000 -c $i $target >> $storage"
+echo "start concurrency $i" &>> $storage
+eval "ab -n 1000 -c $i $target" &>> $storage
 
-echo $'\r'$'\r' >> $storage
+echo $'\r'$'\r' &>> $storage
 
 done
